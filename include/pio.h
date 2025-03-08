@@ -7,7 +7,7 @@
 #define IOPORT(dev, name) dev ## _ ## name ## _PORT
 
 static inline void inb(const u16 port, u8* ib) {
-  asm(
+  asm volatile (
     "inb %1\n\t"
     "movb %%al, %0"
     : "=m" (*ib)
@@ -17,7 +17,7 @@ static inline void inb(const u16 port, u8* ib) {
 }
 
 static inline void inl(const u16 port, u32* il) {
-  asm (
+  asm volatile (
     "inl %1\n\t"
     "movl %%eax, %0"
     : "=m" (*il)
@@ -27,7 +27,7 @@ static inline void inl(const u16 port, u32* il) {
 }
 
 static inline void outb(const u16 port, u8 ob) {
-  asm (
+  asm volatile (
     "outb %0, %1"
     :
     : "a" (ob), "Nd" (port)
@@ -35,7 +35,7 @@ static inline void outb(const u16 port, u8 ob) {
 }
 
 static inline void outl(const u16 port, u32 ol) {
-  asm (
+  asm volatile (
     "outl %0, %1"
     :
     : "a" (ol), "Nd" (port)

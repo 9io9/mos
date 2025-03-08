@@ -9,7 +9,7 @@ typedef unsigned char u8;
 typedef short i16;
 typedef unsigned short u16;
 
-#if __WORDSIZE == 64
+#if MODE == 64
 typedef long long i64;
 typedef unsigned long long u64;
 #endif

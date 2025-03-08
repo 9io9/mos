@@ -1,0 +1,8 @@
+scripts/bin
+*.disk
+boot/*.bin
+boot/*.o
+boot/*.img
+boot/*.S
+.vscode/
+bin

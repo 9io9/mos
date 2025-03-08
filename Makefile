@@ -1,16 +1,15 @@
 include Config.mk
-include boot/Boot.mk
+include core/alloc/Alloc.mk
 include core/pci/Pci.mk
+include boot/Boot.mk
 
-boot_imgs := boot/boot.img boot/boot.bin
+boot_img := boot/boot.img
 
-run-gdb: ${qemu_disks} ${boot_imgs}
-	dd if=boot/boot.bin of=sata0.disk conv=notrunc
-	dd if=boot/boot.img of=sata0.disk seek=1 bs=512 conv=notrunc
+run-gdb: ${qemu_disks} ${boot_img}
+	dd if=${boot_img} of=ide.disk conv=notrunc
 	${qemu} ${qemu_gdb} ${qemu_flags}
-run: ${qemu_disks} ${boot_imgs}
-	dd if=boot/boot.bin of=sata0.disk conv=notrunc
-	dd if=boot/boot.img of=sata0.disk seek=1 bs=512 conv=notrunc
+run: ${qemu_disks} ${boot_img}
+	dd if=${boot_img} of=ide.disk conv=notrunc
 	${qemu} ${qemu_flags}
 
 %.disk:
@@ -18,6 +17,7 @@ run: ${qemu_disks} ${boot_imgs}
 clean-disk:
 	rm *.disk
 clean:
-	rm -r boot/*.aso boot/*.o boot/*.bin boot/*.S boot/*.img
+	rm $(wildcard boot/*.aso) $(wildcard boot/*.o) $(wildcard boot/*.bin) $(wildcard boot/*.S)  $(wildcard boot/*.img) \
+	$(wildcard core/*.o) $(wildcard core/pci/*.o) $(wildcard core/utils/*.o) $(wildcard *.log) $(wildcard core/alloc/*.o)
 
 .PHONY: run clean
