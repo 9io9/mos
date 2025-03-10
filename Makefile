@@ -1,6 +1,8 @@
 include Config.mk
 include core/alloc/Alloc.mk
 include core/pci/Pci.mk
+include core/vga/Vga.mk
+include core/utils/Util.mk
 include boot/Boot.mk
 
 boot_img := boot/boot.img
@@ -17,7 +19,7 @@ run: ${qemu_disks} ${boot_img}
 clean-disk:
 	rm *.disk
 clean:
-	rm $(wildcard boot/*.aso) $(wildcard boot/*.o) $(wildcard boot/*.bin) $(wildcard boot/*.S)  $(wildcard boot/*.img) \
-	$(wildcard core/*.o) $(wildcard core/pci/*.o) $(wildcard core/utils/*.o) $(wildcard *.log) $(wildcard core/alloc/*.o)
+	rm -f ${boot_aso} ${boot_c_obj} $(wildcard boot/*.bin) $(wildcard boot/*.S)  $(wildcard boot/*.img) \
+	$(wildcard core/*.o) $(wildcard *.log) ${pci_obj} ${vga_obj} ${util_obj} ${alloc_obj}
 
 .PHONY: run clean

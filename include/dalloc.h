@@ -3,6 +3,8 @@
 
 #include "include/boot.h"
 
-void* dalloc(u32 ds, BootData* bd, u32 dl);
+void* dpush(u32 ds, BootData* bd);
+
+void dpop(BootData* bd);
 
 #endif

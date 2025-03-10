@@ -13,8 +13,6 @@
 #define BOOT_MEMSIZE ((u32) 0x77400)
 #define BOOT_DATA ((u32) 0x7db4)
 
-#define VGA_START ((u32) 0xB8000)
-
 #pragma pack(push, 1)
 typedef struct BootData {
   u16 gdtr_limit;

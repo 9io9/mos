@@ -13,10 +13,16 @@ void strcpy32(const u8* from, u8* to) {
 
 void memcpy32(const u8* from, u8* to, u32 bytes) {
   asm volatile (
-    "movl %0, %%esi"
-    "movl %1, %%edi"
-    "movl %2, %%ecx"
-    "movsb"
+    "pushl %%esi\n\t"
+    "pushl %%edi\n\t"
+    "pushl %%ecx\n\t"
+    "movl %0, %%esi\n\t"
+    "movl %1, %%edi\n\t"
+    "movl %2, %%ecx\n\t"
+    "rep movsb\n\t"
+    "popl %%ecx\n\t"
+    "popl %%edi\n\t"
+    "popl %%esi\n\t"
     :
     : "r" (from), "r" (to), "r" (bytes)
     : "memory"

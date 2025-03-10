@@ -10,6 +10,18 @@ SECTIONS
 
   PROVIDE(etext = .);
 
+  .rodata : {
+    *(.rodata)
+  }
+
+  PROVIDE(erodata = .);
+
+  .data : {
+    *(.data)
+  }
+
+  PROVIDE(edata = .);
+
   /DISCARD/ : {
     *(.eh_frame .note.GNU-stack)
   } 

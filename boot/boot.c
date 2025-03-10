@@ -3,6 +3,7 @@
 #include "include/pci.h"
 #include "include/util.h"
 #include "include/dalloc.h"
+#include "include/vga.h"
 
 #pragma pack(push, 4)
 typedef struct  ELFHeader32 {
@@ -24,28 +25,10 @@ typedef struct  ELFHeader32 {
 #pragma pack(pop)
 
 void loader_main(void) {
-  BootData* bd = (BootData*) BOOT_DATA;
+  VGATextEnv venv;
 
-  u8* boot_str = dalloc(13, bd, bd->data_end - bd->data_start + 1);
-
-  boot_str[0] = 'B';
-  boot_str[1] = 'o';
-  boot_str[2] = 'o';
-  boot_str[3] = 't';
-  boot_str[4] = ' ';
-  boot_str[5] = 'S';
-  boot_str[6] = 'u';
-  boot_str[7] = 'c';
-  boot_str[8] = 'c';
-  boot_str[9] = 'e';
-  boot_str[10] = 's';
-  boot_str[11] = 's';
-
-  u8* vga = ((u8*) VGA_START);
-
-  for (u32 sid = 0; sid < 13; ++sid) {
-    vga[sid << 1] = boot_str[sid];
-    vga[(sid << 1) + 1] = 0x0F;
+  if (vga_init(&venv, (BootData*) BOOT_DATA) == True) {
+    vga_write((const u8*) "Boot Success\n", &venv);
   }
 
   while (1);
